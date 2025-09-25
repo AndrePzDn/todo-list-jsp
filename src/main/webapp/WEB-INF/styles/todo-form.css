@@ -1,0 +1,78 @@
+body {
+    padding: 0 0;
+    margin: 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    border-width: 1px;
+    border-color: black;
+    width: 100%;
+    max-width: 100%;
+}
+
+h2 {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    text-align: center;
+}
+
+.form-container {
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    border-radius: .5rem;
+    padding: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+input, select {
+    width: 100%;
+    height: 44px;
+    background-color: #05060f0a;
+    border-radius: .5rem;
+    padding: 0 1rem;
+    border: 2px solid transparent;
+    font-size: 1rem;
+    transition: border-color .3s cubic-bezier(.25, .01, .25, 1) 0s, color .3s cubic-bezier(.25, .01, .25, 1) 0s, background .2s cubic-bezier(.25, .01, .25, 1) 0s;
+}
+
+label {
+    display: block;
+    margin-bottom: .3rem;
+    font-size: .9rem;
+    font-weight: bold;
+    color: #05060f99;
+    transition: color .3s cubic-bezier(.25, .01, .25, 1) 0s;
+}
+
+input:hover, select:hover {
+    outline: none;
+    border-color: #05060f;
+}
+
+button {
+    background-color: #05060f0a;
+    color: #76b7cd;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    width: 100%;
+    height: 45px;
+    transition: 0.3s;
+}
+
+button:hover {
+    background-color: #76b7cd;
+    color: #fff;
+    box-shadow: 0 0 0 5px rgba(190, 208, 255, 0.37);
+}

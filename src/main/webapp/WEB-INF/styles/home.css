@@ -1,0 +1,126 @@
+body {
+    padding: 0 0;
+    margin: 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
+
+h2 {
+    display: flex;
+    text-align: left;
+}
+
+table {
+    font-size: 0.875rem;
+    border-collapse: collapse;
+    background: #0000;
+    justify-content: center;
+    align-content: center;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    width: 100%;
+}
+
+thead {
+    background-color: #da852a;
+    color: white;
+}
+
+tbody {
+    background-color: #f1ece6;
+}
+
+thead, tbody {
+    padding: 2rem;
+}
+
+th, td:first-of-type {
+    padding: 1.25rem 1rem;
+}
+
+tr {
+    padding: 0.25rem 1rem;
+
+    &:not(:last-of-type) {
+        border-bottom: 1px solid black;
+    }
+}
+
+.list-container {
+    display: inline-block;
+    width: 70%;
+}
+
+.btn {
+    background-color: #05060f0a;
+    color: #76b7cd;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    height: 45px;
+    padding: .5rem 1rem;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color: #76b7cd;
+    color: #fff;
+    box-shadow: 0 0 0 5px rgba(190, 208, 255, 0.37);
+}
+
+td.action-container {
+    display: flex;
+    gap: 1rem;
+    width: fit-content;
+    height: 4rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-btn {
+    color: #76b7cd;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.list-header-action {
+    padding: 0;
+    margin: 0;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.pagination-container {
+    display: flex;
+    gap: 1rem;
+    margin-top: .5rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.pagination-item {
+    background-color: #05060f0a;
+    padding: 0.25rem 0.75rem;
+    text-decoration: none;
+    color: #76b7cd;
+}
+
+.pagination-item:hover {
+    background-color: #76b7cd;
+    color: white;
+}
+
+.pagination-selected {
+    background-color: #76b7cd;
+    padding: 0.25rem 0.75rem;
+    text-decoration: none;
+    color: white;
+}
