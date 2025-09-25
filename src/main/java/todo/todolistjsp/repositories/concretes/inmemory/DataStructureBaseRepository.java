@@ -20,12 +20,18 @@ public abstract class DataStructureBaseRepository<T extends Entity> implements B
     }
 
     @Override
-    public List<T> findAll(int size, int page) {
+    public List<T> findAll() {
+        Collection<T> records = dataRecord.values();
+        return new ArrayList<>(records);
+    }
+
+    @Override
+    public List<T> findAllPaginated(int size, int page) {
         Collection<T> records = dataRecord.values();
         List<T> recordValues = new ArrayList<>(records);
 
         int startIndex = (page - 1) * size;
-        int endIndex = Math.min(startIndex + page, recordValues.size());
+        int endIndex = Math.min(startIndex + size, recordValues.size());
 
         if (startIndex >= recordValues.size()) {
             return new ArrayList<>();

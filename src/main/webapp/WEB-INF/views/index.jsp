@@ -21,6 +21,7 @@
         justify-content: center;
         align-content: center;
     }
+
     .btn {
         padding: 0.5rem 1.5rem;
         border-radius: 0.75rem;
@@ -32,7 +33,7 @@
 <jsp:include page="common/header.jsp"/>
 <h1>List of Todos</h1>
 <hr>
-<form action="Todolist/new" method="post">
+<form action="/Todolist/new" method="post">
     <input type="submit" value="Add" class="btn"/>
 </form>
 <table border="1" cellpadding="5">
@@ -61,10 +62,10 @@
         <td><%=task.getStartDate()%>
         </td>
         <td>
-            <form action="Todolist/edit/?id=<%=task.getId().toString()%>" method="post">
+            <form action="/Todolist/edit/?id=<%=task.getId().toString()%>" method="post">
                 <input type="submit" value="Edit"/>
             </form>
-            <form action="Todolist/?id=<%=task.getId().toString()%>" method="post">
+            <form action="/Todolist/?id=<%=task.getId().toString()%>" method="post">
                 <input type="submit" value="Delete"/>
                 <label>
                     <input hidden name="_method" value="DELETE"/>
@@ -77,5 +78,18 @@
         }
     %>
 </table>
+<nav>
+    <%
+        int totalPages = (Integer) request.getAttribute("totalPages");
+        if (totalPages > 1) {
+            for (int i = 1; i < totalPages + 1; i++) {
+    %>
+    <a href="/Todolist?page=<%=i%>"><%=i%>
+    </a>
+    <%
+            }
+        }
+    %>
+</nav>
 </body>
 </html>

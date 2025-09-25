@@ -6,6 +6,7 @@ import todo.todolistjsp.model.Task;
 import todo.todolistjsp.service.TodoService;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 public class GetTasksCommand extends FrontCommand {
@@ -13,9 +14,21 @@ public class GetTasksCommand extends FrontCommand {
 
     @Override
     public void process() throws ServletException, IOException {
-        final int DEFAULT_SIZE = 10;
-        final int DEFAULT_PAGE = 0;
-        List<Task> taskList = service.findAllTasks(DEFAULT_SIZE, DEFAULT_PAGE);
+        int DEFAULT_SIZE = 10;
+        int DEFAULT_PAGE = 1;
+        HashMap<String, String> queryValues = getQueryValues();
+
+        int pageSize = queryValues.get("size") != null
+                ? (Integer.parseInt(queryValues.get("size")))
+                : DEFAULT_SIZE;
+        int page = queryValues.get("page") != null
+                ? (Integer.parseInt(queryValues.get("page")))
+                : DEFAULT_PAGE;
+
+        List<Task> taskList = service.findAllTaskPaginated(page, pageSize);
+
+        int totalPages = (service.findAllTasks().size() + pageSize - 1) / pageSize;
+        request.setAttribute("totalPages", totalPages);
         request.setAttribute("todos", taskList);
         forward("index.jsp");
     }
