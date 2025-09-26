@@ -3,14 +3,14 @@ package todo.todolistjsp.controller.commands.todos;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.UUID;
 
 import javax.sql.DataSource;
 
 import jakarta.servlet.ServletException;
 import todo.todolistjsp.controller.commands.FrontCommand;
+import todo.todolistjsp.dto.TaskCreateDto;
+import todo.todolistjsp.mapper.TaskMapper;
 import todo.todolistjsp.model.Status;
-import todo.todolistjsp.model.Task;
 import todo.todolistjsp.repositories.concretes.PostgresTaskRepository;
 import todo.todolistjsp.service.DataSourceFactory;
 import todo.todolistjsp.service.TodoService;
@@ -21,12 +21,12 @@ public class PostAddTodoCommand extends FrontCommand {
 
     // @Inject
     // public PostAddTodoCommand(TodoService todoService) {
-    //     this.todoService = todoService;
+    // this.todoService = todoService;
     // }
 
     public void init() {
         DataSource ds = DataSourceFactory.createDataSource();
-        PostgresTaskRepository repository = new PostgresTaskRepository(ds);
+        PostgresTaskRepository repository = new PostgresTaskRepository(ds, new TaskMapper());
         todoService = new TodoService(repository);
     }
 
@@ -41,7 +41,7 @@ public class PostAddTodoCommand extends FrontCommand {
         LocalDate targetDate = LocalDate.parse(request.getParameter("targetDate"), formatter);
         LocalDate startDate = LocalDate.parse(request.getParameter("startDate"), formatter);
 
-        Task task = new Task(UUID.randomUUID(), title, description, status, targetDate, startDate);
+        TaskCreateDto task = new TaskCreateDto(title, description, status, targetDate, startDate);
         todoService.saveTask(task);
         response.sendRedirect("/");
     }

@@ -10,15 +10,21 @@ import java.util.UUID;
 
 import javax.sql.DataSource;
 
+import todo.todolistjsp.dto.CreateDto;
+import todo.todolistjsp.dto.UpdateDto;
+import todo.todolistjsp.mapper.Mapper;
 import todo.todolistjsp.model.Entity;
 import todo.todolistjsp.repositories.interfaces.BaseRepository;
 
-public abstract class PostgresBaseRepository<T extends Entity> implements BaseRepository<T> {
+public abstract class PostgresBaseRepository<T extends Entity, A extends CreateDto, U extends UpdateDto>
+        implements BaseRepository<T, A, U> {
 
     protected DataSource dataSource;
+    private final Mapper<A, U, T> mapper;
 
-    public PostgresBaseRepository(DataSource dataSource) {
+    public PostgresBaseRepository(DataSource dataSource, Mapper<A, U, T> mapper) {
         this.dataSource = dataSource;
+        this.mapper = mapper;
     }
 
     protected abstract String getTableName();
@@ -36,12 +42,13 @@ public abstract class PostgresBaseRepository<T extends Entity> implements BaseRe
     protected abstract String getUpdateSqlQuery();
 
     @Override
-    public void save(T data) {
+    public void save(A data) {
         String sqlQuery = getInsertSqlQuery();
         try (
                 Connection conn = dataSource.getConnection();
                 PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
-            setInsertParameters(preparedStatement, data);
+            T entity = mapper.fromCreateDto(data);
+            setInsertParameters(preparedStatement, entity);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -107,12 +114,18 @@ public abstract class PostgresBaseRepository<T extends Entity> implements BaseRe
     }
 
     @Override
-    public void edit(UUID id, T newData) {
+    public void edit(UUID id, U newData) {
         String sqlQuery = getUpdateSqlQuery();
         try (
                 Connection conn = dataSource.getConnection();
                 PreparedStatement preparedStatement = conn.prepareStatement(sqlQuery)) {
-            setUpdateParametes(preparedStatement, newData);
+            T entity = findById(id);
+
+            if (entity == null)
+                return;
+
+            mapper.updateEntity(entity, newData);
+            setUpdateParametes(preparedStatement, entity);
             preparedStatement.executeUpdate();
         } catch (Exception e) {
             System.out.println(e.getMessage());

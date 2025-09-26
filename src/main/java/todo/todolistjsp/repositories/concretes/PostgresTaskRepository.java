@@ -8,15 +8,19 @@ import java.util.UUID;
 
 import javax.sql.DataSource;
 
+import todo.todolistjsp.dto.TaskCreateDto;
+import todo.todolistjsp.dto.TaskUpdateDto;
+import todo.todolistjsp.mapper.Mapper;
 import todo.todolistjsp.model.Status;
 import todo.todolistjsp.model.Task;
 import todo.todolistjsp.repositories.interfaces.TaskRepository;
 
-public class PostgresTaskRepository extends PostgresBaseRepository<Task> implements TaskRepository {
+public class PostgresTaskRepository extends PostgresBaseRepository<Task, TaskCreateDto, TaskUpdateDto>
+        implements TaskRepository {
 
     // @Inject
-    public PostgresTaskRepository(DataSource dataSource) {
-        super(dataSource);
+    public PostgresTaskRepository(DataSource dataSource, Mapper<TaskCreateDto, TaskUpdateDto, Task> mapper) {
+        super(dataSource, mapper);
     }
 
     @Override

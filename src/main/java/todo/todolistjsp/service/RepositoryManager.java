@@ -1,10 +1,11 @@
 package todo.todolistjsp.service;
 
+import todo.todolistjsp.mapper.TaskMapper;
 import todo.todolistjsp.repositories.concretes.inmemory.DataStructureTaskRepository;
 import todo.todolistjsp.repositories.interfaces.TaskRepository;
 
 public class RepositoryManager {
-    private final TaskRepository taskRepository = new DataStructureTaskRepository();
+    private final TaskRepository taskRepository = new DataStructureTaskRepository(new TaskMapper());
 
     private static RepositoryManager instance;
 

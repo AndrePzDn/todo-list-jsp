@@ -8,6 +8,7 @@ import javax.sql.DataSource;
 
 import jakarta.servlet.ServletException;
 import todo.todolistjsp.controller.commands.FrontCommand;
+import todo.todolistjsp.mapper.TaskMapper;
 import todo.todolistjsp.repositories.concretes.PostgresTaskRepository;
 import todo.todolistjsp.service.DataSourceFactory;
 import todo.todolistjsp.service.TodoService;
@@ -23,7 +24,7 @@ public class GetEditTodoCommand extends FrontCommand {
 
     public void init() {
         DataSource ds = DataSourceFactory.createDataSource();
-        PostgresTaskRepository repository = new PostgresTaskRepository(ds);
+        PostgresTaskRepository repository = new PostgresTaskRepository(ds, new TaskMapper());
         todoService = new TodoService(repository);
     }
 

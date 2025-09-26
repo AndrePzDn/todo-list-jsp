@@ -2,16 +2,26 @@ package todo.todolistjsp.repositories.concretes.inmemory;
 
 import java.util.*;
 
+import todo.todolistjsp.dto.CreateDto;
+import todo.todolistjsp.dto.UpdateDto;
+import todo.todolistjsp.mapper.Mapper;
 import todo.todolistjsp.model.Entity;
 import todo.todolistjsp.repositories.interfaces.BaseRepository;
 
-public abstract class DataStructureBaseRepository<T extends Entity> implements BaseRepository<T> {
+public abstract class DataStructureBaseRepository<T extends Entity, A extends CreateDto, U extends UpdateDto>
+        implements BaseRepository<T, A, U> {
 
+    private final Mapper<A, U, T> mapper;
     protected final Map<UUID, T> dataRecord = new LinkedHashMap<>();
 
+    public DataStructureBaseRepository(Mapper<A, U, T> mapper) {
+        this.mapper = mapper;
+    }
+
     @Override
-    public void save(T data) {
-        dataRecord.put(data.getId(), data);
+    public void save(A data) {
+        T entity = mapper.fromCreateDto(data);
+        dataRecord.put(entity.getId(), entity);
     }
 
     @Override
@@ -41,8 +51,14 @@ public abstract class DataStructureBaseRepository<T extends Entity> implements B
     }
 
     @Override
-    public void edit(UUID id, T newData) {
-        dataRecord.replace(id, newData);
+    public void edit(UUID id, U newData) {
+        T entity = dataRecord.get(id);
+
+        if (entity == null) {
+            return;
+        }
+
+        mapper.updateEntity(entity, newData);
     }
 
     @Override
