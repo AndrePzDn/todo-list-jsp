@@ -24,7 +24,7 @@
             <td>Description</td>
             <td>Status</td>
             <td>Target Date</td>
-            <td>Initial Date</td>
+            <td>Start Date</td>
             <td>Actions</td>
         </tr>
         </thead>

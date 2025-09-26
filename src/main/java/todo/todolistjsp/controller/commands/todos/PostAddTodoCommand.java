@@ -3,6 +3,7 @@ package todo.todolistjsp.controller.commands.todos;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -42,7 +43,13 @@ public class PostAddTodoCommand extends FrontCommand {
         LocalDate startDate = LocalDate.parse(request.getParameter("startDate"), formatter);
 
         TaskCreateDto task = new TaskCreateDto(title, description, status, targetDate, startDate);
-        todoService.saveTask(task);
+        List<String> errors = todoService.saveTask(task);
+        if (!errors.isEmpty()) {
+            request.setAttribute("errors", errors);
+            forward("todo-form.jsp");
+            return;
+
+        }
         response.sendRedirect("/");
     }
 }

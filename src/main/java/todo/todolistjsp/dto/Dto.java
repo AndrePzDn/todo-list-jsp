@@ -1,3 +1,7 @@
 package todo.todolistjsp.dto;
 
-public interface Dto { }
+import java.util.List;
+
+public interface Dto { 
+    List<String> validate();
+}

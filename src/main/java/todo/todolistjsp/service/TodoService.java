@@ -17,12 +17,26 @@ public class TodoService {
         this.repository = repository;
     }
 
-    public void saveTask(TaskCreateDto task) {
+    public List<String> saveTask(TaskCreateDto task) {
+        List<String> errors = task.validate();
+
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+
         repository.save(task);
+        return errors;
     }
 
-    public void editTask(UUID id, TaskUpdateDto editedTasks) {
+    public List<String> editTask(UUID id, TaskUpdateDto editedTasks) {
+        List<String> errors = editedTasks.validate();
+
+        if (!errors.isEmpty()) {
+            return errors;
+        }
+
         repository.edit(id, editedTasks);
+        return errors;
     }
 
     public void deleteTask(UUID id) {
@@ -44,4 +58,5 @@ public class TodoService {
     public void updateStatus(UUID id, Status status) {
         repository.updateTaskStatus(id, status);
     }
+
 }

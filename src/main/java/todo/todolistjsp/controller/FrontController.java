@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import todo.todolistjsp.controller.commands.FrontCommand;
+import todo.todolistjsp.controller.commands.NotFoundCommand;
 import todo.todolistjsp.model.HTTPMethod;
 import todo.todolistjsp.model.HttpRequest;
 
@@ -17,6 +18,11 @@ public class FrontController extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         FrontCommand command = getCommand(req);
+        
+        if (command == null) {
+            command = new NotFoundCommand();
+        }
+
         command.init(getServletContext(), req, resp);
         command.process();
     }
