@@ -10,8 +10,9 @@ import java.util.UUID;
 public class TodoService {
     private final TaskRepository repository;
 
-    public TodoService() {
-        this.repository = RepositoryManager.getTaskRepository();
+    // @Inject
+    public TodoService(TaskRepository repository) {
+        this.repository = repository;
     }
 
     public void saveTask(Task task) {

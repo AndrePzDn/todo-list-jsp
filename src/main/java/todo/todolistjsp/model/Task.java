@@ -1,11 +1,13 @@
 package todo.todolistjsp.model;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+@NoArgsConstructor
 public class Task extends Entity {
     @Getter
     @Setter
