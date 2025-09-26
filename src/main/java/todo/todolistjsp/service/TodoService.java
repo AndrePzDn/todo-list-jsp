@@ -26,8 +26,12 @@ public class TodoService {
         repository.delete(id);
     }
 
-    public List<Task> findAllTasks(int page, int size) {
-        return repository.findAll(size, page);
+    public List<Task> findAllTaskPaginated(int page, int size) {
+        return repository.findAllPaginated(size, page);
+    }
+
+    public List<Task> findAllTasks() {
+        return repository.findAll();
     }
 
     public Task findTaskById(UUID id) {
