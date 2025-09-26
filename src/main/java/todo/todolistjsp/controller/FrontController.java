@@ -5,12 +5,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import todo.todolistjsp.controller.commands.FrontCommand;
+import todo.todolistjsp.model.HTTPMethod;
+import todo.todolistjsp.model.HttpRequest;
 
 import java.io.IOException;
 import java.util.HashMap;
 
 public class FrontController extends HttpServlet {
-    protected final static HashMap<String, FrontCommand> commands = new HashMap<>();
+    protected final static HashMap<HttpRequest, FrontCommand> commands = new HashMap<>();
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -24,8 +26,8 @@ public class FrontController extends HttpServlet {
         String requestURI = req.getRequestURI();
         requestURI = normalizeURI(requestURI);
 
-        String commandName = method.toUpperCase() + "_" + requestURI;
-        return commands.get(commandName);
+        HttpRequest httpRequest = new HttpRequest(HTTPMethod.valueOf(method.toUpperCase()), requestURI);
+        return commands.get(httpRequest);
     }
 
     private String normalizeURI(String uri) {
