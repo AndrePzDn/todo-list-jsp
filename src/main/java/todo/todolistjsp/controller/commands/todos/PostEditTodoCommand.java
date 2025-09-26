@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import javax.sql.DataSource;
@@ -23,7 +24,7 @@ public class PostEditTodoCommand extends FrontCommand {
 
     // @Inject
     // public PostEditTodoCommand(TodoService todoService) {
-    //     this.todoService = todoService;
+    // this.todoService = todoService;
     // }
 
     public void init() {
@@ -46,7 +47,15 @@ public class PostEditTodoCommand extends FrontCommand {
         UUID id = UUID.fromString(queryValues.get("id"));
 
         TaskUpdateDto task = new TaskUpdateDto(title, description, status, targetDate, startDate);
-        todoService.editTask(id, task);
+        List<String> errors = todoService.editTask(id, task);
+
+        if (!errors.isEmpty()) {
+            request.setAttribute("errors", errors);
+            request.setAttribute("todo", task);
+            forward("todo-form.jsp");
+            return;
+        }
+
         response.sendRedirect("/");
     }
 }
