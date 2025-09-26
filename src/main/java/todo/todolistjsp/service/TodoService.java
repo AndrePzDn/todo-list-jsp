@@ -1,5 +1,7 @@
 package todo.todolistjsp.service;
 
+import todo.todolistjsp.dto.TaskCreateDto;
+import todo.todolistjsp.dto.TaskUpdateDto;
 import todo.todolistjsp.model.Status;
 import todo.todolistjsp.repositories.interfaces.TaskRepository;
 import todo.todolistjsp.model.Task;
@@ -10,15 +12,16 @@ import java.util.UUID;
 public class TodoService {
     private final TaskRepository repository;
 
-    public TodoService() {
-        this.repository = RepositoryManager.getTaskRepository();
+    // @Inject
+    public TodoService(TaskRepository repository) {
+        this.repository = repository;
     }
 
-    public void saveTask(Task task) {
+    public void saveTask(TaskCreateDto task) {
         repository.save(task);
     }
 
-    public void editTask(UUID id, Task editedTasks) {
+    public void editTask(UUID id, TaskUpdateDto editedTasks) {
         repository.edit(id, editedTasks);
     }
 

@@ -6,17 +6,35 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.UUID;
 
+import javax.sql.DataSource;
+
 import jakarta.servlet.ServletException;
 import todo.todolistjsp.controller.commands.FrontCommand;
+import todo.todolistjsp.dto.TaskUpdateDto;
+import todo.todolistjsp.mapper.TaskMapper;
 import todo.todolistjsp.model.Status;
-import todo.todolistjsp.model.Task;
+import todo.todolistjsp.repositories.concretes.PostgresTaskRepository;
+import todo.todolistjsp.service.DataSourceFactory;
 import todo.todolistjsp.service.TodoService;
 
 public class PostEditTodoCommand extends FrontCommand {
-    private final TodoService service = new TodoService();
+
+    private TodoService todoService;
+
+    // @Inject
+    // public PostEditTodoCommand(TodoService todoService) {
+    //     this.todoService = todoService;
+    // }
+
+    public void init() {
+        DataSource ds = DataSourceFactory.createDataSource();
+        PostgresTaskRepository repository = new PostgresTaskRepository(ds, new TaskMapper());
+        todoService = new TodoService(repository);
+    }
 
     @Override
     public void process() throws ServletException, IOException {
+        init();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         HashMap<String, String> queryValues = getQueryValues();
 
@@ -27,8 +45,8 @@ public class PostEditTodoCommand extends FrontCommand {
         LocalDate startDate = LocalDate.parse(request.getParameter("startDate"), formatter);
         UUID id = UUID.fromString(queryValues.get("id"));
 
-        Task task = new Task(id, title, description, status, targetDate, startDate);
-        service.editTask(id, task);
+        TaskUpdateDto task = new TaskUpdateDto(title, description, status, targetDate, startDate);
+        todoService.editTask(id, task);
         response.sendRedirect("/");
     }
 }

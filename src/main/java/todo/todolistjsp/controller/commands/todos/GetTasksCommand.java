@@ -1,19 +1,36 @@
 package todo.todolistjsp.controller.commands.todos;
 
-import jakarta.servlet.ServletException;
-import todo.todolistjsp.controller.commands.FrontCommand;
-import todo.todolistjsp.model.Task;
-import todo.todolistjsp.service.TodoService;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.sql.DataSource;
+
+import jakarta.servlet.ServletException;
+import todo.todolistjsp.controller.commands.FrontCommand;
+import todo.todolistjsp.mapper.TaskMapper;
+import todo.todolistjsp.model.Task;
+import todo.todolistjsp.repositories.concretes.PostgresTaskRepository;
+import todo.todolistjsp.service.DataSourceFactory;
+import todo.todolistjsp.service.TodoService;
+
 public class GetTasksCommand extends FrontCommand {
-    private final TodoService service = new TodoService();
+    private TodoService todoService;
+
+    // @Inject
+    // public GetTasksCommand(TodoService todoService) {
+    // this.todoService = todoService;
+    // }
+
+    public void init() {
+        DataSource ds = DataSourceFactory.createDataSource();
+        PostgresTaskRepository repository = new PostgresTaskRepository(ds, new TaskMapper());
+        todoService = new TodoService(repository);
+    }
 
     @Override
     public void process() throws ServletException, IOException {
+        init();
         int DEFAULT_SIZE = 10;
         int DEFAULT_PAGE = 1;
         HashMap<String, String> queryValues = getQueryValues();
@@ -25,9 +42,9 @@ public class GetTasksCommand extends FrontCommand {
                 ? (Integer.parseInt(queryValues.get("page")))
                 : DEFAULT_PAGE;
 
-        List<Task> taskList = service.findAllTaskPaginated(page, pageSize);
+        List<Task> taskList = todoService.findAllTaskPaginated(page, pageSize);
 
-        int totalPages = (service.findAllTasks().size() + pageSize - 1) / pageSize;
+        int totalPages = (todoService.findAllTasks().size() + pageSize - 1) / pageSize;
         request.setAttribute("totalPages", totalPages);
         request.setAttribute("todos", taskList);
         forward("index.jsp");
