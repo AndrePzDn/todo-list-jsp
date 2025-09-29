@@ -55,6 +55,12 @@
                         <input hidden name="_method" value="DELETE"/>
                     </label>
                 </form>
+                <form action="/Todolist/update-status/?id=<%=task.getId().toString()%>" method="post">
+                    <input class="action-btn" type="submit" value="Mark as Complete"/>
+                    <label>
+                        <input hidden name="_method" value="PATCH"/>
+                    </label>
+                </form>
             </td>
         </tr>
         <%

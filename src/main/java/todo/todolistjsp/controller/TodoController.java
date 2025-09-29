@@ -6,6 +6,7 @@ import todo.todolistjsp.controller.commands.todos.DeleteTodoCommand;
 import todo.todolistjsp.controller.commands.todos.GetAddTodoCommand;
 import todo.todolistjsp.controller.commands.todos.GetEditTodoCommand;
 import todo.todolistjsp.controller.commands.todos.GetTasksCommand;
+import todo.todolistjsp.controller.commands.todos.PatchStatusCommand;
 import todo.todolistjsp.controller.commands.todos.PostAddTodoCommand;
 import todo.todolistjsp.controller.commands.todos.PostEditTodoCommand;
 import todo.todolistjsp.model.HTTPMethod;
@@ -24,5 +25,6 @@ public class TodoController extends FrontController {
         commands.put(new HttpRequest(HTTPMethod.PUT, "/Todolist/edit"), new PostEditTodoCommand());
         commands.put(new HttpRequest(HTTPMethod.GET, "/Todolist/edit"), new GetEditTodoCommand());
         commands.put(new HttpRequest(HTTPMethod.DELETE, "/Todolist"), new DeleteTodoCommand());
+        commands.put(new HttpRequest(HTTPMethod.PATCH, "/Todolist/update-status"), new PatchStatusCommand());
     }
 }

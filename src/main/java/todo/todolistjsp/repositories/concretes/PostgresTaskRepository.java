@@ -1,5 +1,6 @@
 package todo.todolistjsp.repositories.concretes;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +26,17 @@ public class PostgresTaskRepository extends PostgresBaseRepository<Task, TaskCre
 
     @Override
     public void updateTaskStatus(UUID id, Status status) {
-        throw new UnsupportedOperationException("Unimplemented method 'updateTaskStatus'");
+        String sqlQuery = String.format("UPDATE %s SET status = ? WHERE %s = ?", getTableName(), getIdColumnName());
+
+        try (
+                Connection conn = dataSource.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sqlQuery)) {
+            ps.setObject(1, status.toString().toUpperCase());
+            ps.setObject(2, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     @Override
