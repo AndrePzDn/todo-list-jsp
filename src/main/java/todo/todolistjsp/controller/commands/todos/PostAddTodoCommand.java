@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.apache.commons.text.StringEscapeUtils;
+
 import jakarta.servlet.ServletException;
 import todo.todolistjsp.controller.commands.FrontCommand;
 import todo.todolistjsp.dto.TaskCreateDto;
@@ -36,9 +38,9 @@ public class PostAddTodoCommand extends FrontCommand {
         init();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
-        String title = request.getParameter("title").trim();
-        String description = request.getParameter("description").trim();
-        Status status = Status.valueOf(request.getParameter("status").toUpperCase());
+        String title = StringEscapeUtils.escapeHtml4(request.getParameter("title").trim());
+        String description = StringEscapeUtils.escapeHtml4(request.getParameter("description").trim());
+        Status status = Status.valueOf(StringEscapeUtils.escapeHtml4(request.getParameter("status").toUpperCase()));
         LocalDate targetDate = LocalDate.parse(request.getParameter("targetDate"), formatter);
         LocalDate startDate = LocalDate.parse(request.getParameter("startDate"), formatter);
 
