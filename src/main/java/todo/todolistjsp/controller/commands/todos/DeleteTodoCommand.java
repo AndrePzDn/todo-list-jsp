@@ -32,6 +32,7 @@ public class DeleteTodoCommand extends FrontCommand {
         init();
         HashMap<String, String> queryValues = getQueryValues();
         todoService.deleteTask(UUID.fromString(queryValues.get("id")));
+        request.getSession().setAttribute("toastMessage", "Task was deleted successfully");
         response.sendRedirect("/");
     }
 }

@@ -26,6 +26,7 @@ public class PatchStatusCommand extends FrontCommand {
     public void process() throws ServletException, IOException {
         init();
         todoService.updateStatus(UUID.fromString(request.getParameter("id")), Status.COMPLETE);
+        request.getSession().setAttribute("toastMessage", "Task status was updated");
         response.sendRedirect("/");
     }
 

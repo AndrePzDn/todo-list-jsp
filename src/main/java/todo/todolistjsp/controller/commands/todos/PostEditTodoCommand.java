@@ -57,6 +57,7 @@ public class PostEditTodoCommand extends FrontCommand {
             return;
         }
 
+        request.getSession().setAttribute("toastMessage", "Task was edited succesfully");
         response.sendRedirect("/");
     }
 }

@@ -52,6 +52,8 @@ public class PostAddTodoCommand extends FrontCommand {
             return;
 
         }
+
+        request.getSession().setAttribute("toastMessage", "Task was created succesfully");
         response.sendRedirect("/");
     }
 }

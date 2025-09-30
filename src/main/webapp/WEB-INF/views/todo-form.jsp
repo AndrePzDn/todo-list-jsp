@@ -7,6 +7,7 @@
     <title>
         <%=request.getAttribute("action") == "edit" ? "Edit Task" : "Create Task"%>
     </title>
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
 </head>
 <style>
     <%@include file="../styles/todo-form.css" %>

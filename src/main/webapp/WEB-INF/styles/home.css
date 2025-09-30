@@ -6,7 +6,7 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    font-family: "Roboto", serif
 }
 
 h2 {
@@ -52,7 +52,7 @@ tr {
 
 .list-container {
     display: inline-block;
-    width: 70%;
+    width: 90%;
 }
 
 .btn {
